@@ -34,7 +34,6 @@ void insertion_sort(int *arr, int n) {
 		arr[j+ 1] = A;
 	}
 }
-//TODO: Insertion with binary search
 
 //Quick sort:
 
