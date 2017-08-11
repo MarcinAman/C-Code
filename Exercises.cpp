@@ -232,7 +232,7 @@ void priorityQueue::deleteElement(queueEl removed){
     deleteFunction(arr[ind],ind);
 }
 
-int main(){
+void _priority(){
     priorityQueue A;
     cout << A.isEmpty() << endl;
     A.insert(3,3);
@@ -247,7 +247,57 @@ int main(){
     cout << "MAX= " << A.getMaxVal() << endl;
     A.deleteElement(A.arr[2]);
     A.printArray();
-    
+}
+
+//Cout the nth largest value in a tree
+struct BSTnode{
+    BSTnode *parent, *left, *right;
+    int val;
+};
+//If we would like to have Nth smallest value, just swap recursions;
+
+void printNthLargest(BSTnode *root, int N){
+    if(root==0) return;
+    static int ind =0;
+    printNthLargest(root->right);
+    ind ++;
+    if(int ==N){
+        cout << root->val << endl;
+        return;
+    }
+    printNthLargest(root->left,N);
+}
+
+void FloydMarshall(int **G, int n){
+    int MAXINT = 1000; //Max value if there is no direct connection between i and j;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            for(int k=0;k<n;k++){
+                if(G[j][i]!=MAXINT || G[i][k]!=MAXINT) break;
+                int x = G[j][i]+G[i][k];
+                if(G[j][k]>x) G[j][k]=x;
+            }
+        }
+    }
+}
+
+//We want to check if there is a sub arr that sums up to T
+
+bool subsetSum(int *A, int n, int T){
+    bool F[n][T+1];
+    for(int i=0;i<n;i++) F[i][0]=true;
+    for(int i=0;i<=T;i++) F[0][i]=(k==0||k==A[0]);
+    for(int i=1;i<n;i++){
+        for(int j=1;j<=T;j++){
+            if(j<A[i]) F[i][j]=F[i-1][j];
+            else F[i][j]=(F[i-1][k]||F[i-1][k-A[i]]);
+        }
+    }
+    return F[n-1][T];
+}
+
+
+int main(){
     //_isLooped();
     //_isCorrect();
     //_rotateArray();
