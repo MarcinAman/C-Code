@@ -164,6 +164,66 @@ void prepare_array(int n) {
 	print_arr(arr, n);
 }
 
+struct Point {
+	int x, y;
+	int diff()
+	{
+		return (int)sqrt(pow(x,2) + pow(y,2));
+	}
+};
+
+void printArr(Point *arr, int n) {
+	for (int i = 0; i < n; i++) {
+		cout << arr[i].x << "+" << arr[i].y << "->" << arr[i].diff() << " ";
+	}
+	cout << endl;
+}
+
+
+void heapyfy(Point *arr, int n, int i) {
+	if (i >= n) {
+		return;
+	}
+	int ind_l = 2 * i + 1,i_c_l = ind_l;
+	int ind_r = 2 * i + 2, ind = i,i_c_r = ind_r;
+	while (arr[i].diff() < arr[ind_l].diff() && i>=0 && ind_l < n) {
+		swap(arr[i], arr[ind_l]);
+		ind_l = i;
+		i = (i - 1) / 2;
+	}
+	while (arr[ind].diff() < arr[ind_r].diff() && ind >= 0 && ind_r < n) {
+		swap(arr[ind], arr[ind_r]);
+		ind_r = ind;
+		ind = (ind - 1) / 2;
+	}
+	heapyfy(arr, n, i_c_l);
+	heapyfy(arr, n, i_c_r);
+}
+
+void sort(Point *arr, int n) {
+	int ind = 0;
+	heapyfy(arr, n, 0);
+	for (int i = n - 1; i > 0; i--) {
+		swap(arr[i], arr[0]);
+		heapyfy(arr, i, 0);
+	}
+}
+
+void _sort() {
+	int n = 5;
+	Point *arr = new Point[n];
+	for (int i = 0; i < n; i++) {
+		arr[i].x = rand() % 10 + 1;
+		arr[i].y = rand () % 10 + 1;
+	}
+	printArr(arr, n);
+	sort(arr, n);
+	printArr(arr, n);
+}
+
+
+
+
 int main() {
 	prepare_array(10);
 	getchar();
